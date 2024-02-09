@@ -10,7 +10,19 @@ import {
 } from "react-icons/hi";
 import * as yup from "yup";
 
-export const SearchAndFilter = () => {
+interface IProps {
+	refetch: () => void;
+	setLimit: (limit: number) => void;
+	setSearch: (search: string) => void;
+	setStatus: (status: string) => void;
+}
+
+export const SearchAndFilter = ({
+	refetch,
+	setLimit,
+	setSearch,
+	setStatus,
+}: IProps) => {
 	const schema = yup.object().shape({
 		search: yup.string().notRequired(),
 		limit: yup.string().required(),
@@ -44,6 +56,10 @@ export const SearchAndFilter = () => {
 					{ value: "15", label: "15" },
 					{ value: "20", label: "20" },
 				]}
+				onChange={(e) => {
+					console.log("e.target.value", e.target.value);
+					setLimit(Number(e.target.value));
+				}}
 			/>
 
 			<Select
@@ -56,6 +72,10 @@ export const SearchAndFilter = () => {
 					{ value: "active", label: "Ativo" },
 					{ value: "inactive", label: "Inativo" },
 				]}
+				onChange={(e) => {
+					console.log("e.target.value", e.target.value);
+					setStatus(e.target.value);
+				}}
 			/>
 
 			<Input
@@ -76,9 +96,13 @@ export const SearchAndFilter = () => {
 						/>
 					) : null
 				}
+				onChange={(e) => {
+					console.log("e.target.value", e.target.value);
+					setSearch(e.target.value);
+				}}
 			/>
 			<div className="flex-1 md:min-w-[200px] md:max-w-[100px]">
-				<Button className="">
+				<Button className="" onClick={refetch}>
 					<div className="flex gap-2 justify-center items-center">
 						<HiOutlineSearch size={20} className="text-white" />
 						Pesquisar

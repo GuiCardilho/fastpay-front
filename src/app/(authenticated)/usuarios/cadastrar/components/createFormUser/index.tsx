@@ -16,10 +16,8 @@ interface FormValues {
 
 interface IProps {
 	isSubmit: boolean;
-	submit: (values: FormValues) => void;
-	loading: boolean;
+	submit: (values?: FormValues) => void;
 	send: boolean;
-	data: FormValues;
 }
 
 export const CreateFormUser = (props: IProps) => {
@@ -53,10 +51,7 @@ export const CreateFormUser = (props: IProps) => {
 		register,
 		formState: { errors },
 		handleSubmit,
-		setError,
-		setValue,
 		control,
-		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	});

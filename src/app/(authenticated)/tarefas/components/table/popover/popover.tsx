@@ -1,6 +1,5 @@
 "use client";
 
-import { userStore } from "@/store/user";
 import * as Popover from "@radix-ui/react-popover";
 import { useRouter } from "next/navigation";
 
@@ -13,10 +12,10 @@ import { ITask } from "..";
 
 interface IProps extends ITask {
 	setModal: (value: boolean) => void;
+	setIdTask: (id: string) => void;
 }
 
-export const PopoverTable = ({ setModal, ...task }: IProps) => {
-	const { logout } = userStore();
+export const PopoverTable = ({ setIdTask, setModal, ...task }: IProps) => {
 	const router = useRouter();
 
 	return (
@@ -41,6 +40,7 @@ export const PopoverTable = ({ setModal, ...task }: IProps) => {
 							className="flex items-center py-1 px-2 hover:bg-gray-100 cursor-pointer gap-2 rounded-md"
 							onClick={() => {
 								setModal(true);
+								setIdTask(task?.id);
 							}}
 						>
 							<HiOutlineXCircle size={20} />

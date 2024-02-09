@@ -3,7 +3,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineCalendar, HiOutlineUser } from "react-icons/hi";
-import { useHookFormMask } from "use-mask-input";
 
 import * as yup from "yup";
 
@@ -31,18 +30,13 @@ export const EditFormTask = (props: IProps) => {
 	});
 
 	const {
-		register,
 		formState: { errors },
 		handleSubmit,
-		setError,
 		setValue,
 		control,
-		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
-
-	const registerWithMask = useHookFormMask(register);
 
 	useEffect(() => {
 		if (props.edit) {

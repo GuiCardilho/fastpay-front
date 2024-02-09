@@ -1,6 +1,5 @@
 "use client";
 
-import { userStore } from "@/store/user";
 import * as Popover from "@radix-ui/react-popover";
 import { useRouter } from "next/navigation";
 
@@ -10,19 +9,13 @@ import {
 	HiOutlineXCircle,
 } from "react-icons/hi";
 import { IUser } from "..";
-
 interface IProps extends IUser {
 	setModal: (value: boolean) => void;
+	setIdTask: (id: string) => void;
 }
 
-export const PopoverTable = ({ setModal, ...user }: IProps) => {
-	const { logout } = userStore();
+export const PopoverTable = ({ setIdTask, setModal, ...task }: IProps) => {
 	const router = useRouter();
-
-	const handleLogout = () => {
-		logout();
-		router.push("/");
-	};
 
 	return (
 		<Popover.Root>
@@ -36,7 +29,7 @@ export const PopoverTable = ({ setModal, ...user }: IProps) => {
 						<button
 							type="button"
 							className="flex items-center py-1 px-2 hover:bg-gray-100 cursor-pointer gap-2 rounded-md"
-							onClick={() => router.push(`/usuarios/${user.id}`)}
+							onClick={() => router.push(`/usuarios/${task.id}`)}
 						>
 							<HiOutlineArrowCircleRight size={20} />
 							Visualizar
@@ -46,6 +39,7 @@ export const PopoverTable = ({ setModal, ...user }: IProps) => {
 							className="flex items-center py-1 px-2 hover:bg-gray-100 cursor-pointer gap-2 rounded-md"
 							onClick={() => {
 								setModal(true);
+								setIdTask(task?.id);
 							}}
 						>
 							<HiOutlineXCircle size={20} />

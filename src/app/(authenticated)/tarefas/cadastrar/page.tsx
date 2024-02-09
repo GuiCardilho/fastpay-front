@@ -1,40 +1,22 @@
 "use client";
 
 import { Heading } from "@/components/heading";
+import { api } from "@/services/api";
 import { createToast } from "@/utils/toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { HiOutlineClipboardList, HiOutlinePencilAlt } from "react-icons/hi";
-import { CreateFormTask } from "./components/editForm";
+import { CreateFormTask } from "./components/createFormTask";
 
 export default function Page() {
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [send, setSend] = useState(false);
 
-	const { data, isLoading } = useQuery({
-		queryKey: ["task"],
-		queryFn: async () => {
-			return {
-				data: {
-					id: "1",
-					title: "Tarefa 1",
-					description: "Descrição 1",
-					date: "2021-09-01",
-					status: "pendente",
-				},
-
-				total: 1,
-				page: 1,
-				limit: 10,
-				totalPages: 1,
-			};
-		},
-	});
-
 	const { mutate } = useMutation({
 		mutationKey: ["createTask"],
 		mutationFn: async (values) => {
 			console.log(values);
+			await api.post("/tasks", values);
 		},
 		onSuccess: () => {
 			createToast({
@@ -89,13 +71,7 @@ export default function Page() {
 			</div>
 
 			<div className="bg-white rounded-md p-4">
-				<CreateFormTask
-					loading={isLoading}
-					submit={handleEdit}
-					isSubmit={isSubmit}
-					data={data?.data || undefined}
-					send={send}
-				/>
+				<CreateFormTask submit={handleEdit} isSubmit={isSubmit} send={send} />
 			</div>
 		</div>
 	);

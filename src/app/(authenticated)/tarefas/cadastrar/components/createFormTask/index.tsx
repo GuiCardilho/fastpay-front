@@ -7,7 +7,6 @@ import {
 	HiOutlinePencilAlt,
 	HiOutlineUser,
 } from "react-icons/hi";
-import { useHookFormMask } from "use-mask-input";
 
 import * as yup from "yup";
 
@@ -21,9 +20,7 @@ interface FormValues {
 interface IProps {
 	isSubmit: boolean;
 	submit: (values?: FormValues) => void;
-	loading: boolean;
 	send: boolean;
-	data?: FormValues;
 }
 
 export const CreateFormTask = (props: IProps) => {
@@ -35,18 +32,12 @@ export const CreateFormTask = (props: IProps) => {
 	});
 
 	const {
-		register,
 		formState: { errors },
 		handleSubmit,
-		setError,
-		setValue,
 		control,
-		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
-
-	const registerWithMask = useHookFormMask(register);
 
 	useEffect(() => {
 		// @ts-ignore

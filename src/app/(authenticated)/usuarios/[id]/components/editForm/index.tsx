@@ -19,7 +19,7 @@ interface IProps {
 	submit: (values: FormValues) => void;
 	loading: boolean;
 	edit: boolean;
-	data: FormValues;
+	data?: FormValues | undefined;
 }
 
 export const EditFormUser = (props: IProps) => {
@@ -44,10 +44,8 @@ export const EditFormUser = (props: IProps) => {
 		register,
 		formState: { errors },
 		handleSubmit,
-		setError,
 		setValue,
 		control,
-		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	});

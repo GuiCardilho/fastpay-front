@@ -40,6 +40,10 @@ interface IProps {
 	setPagination: (page: number) => void;
 	setLimit: (limit: number) => void;
 	setModal: (value: boolean) => void;
+	refetch: () => void;
+	setSearch: (search: string) => void;
+	setStatus: (status: string) => void;
+	setIdTask: (id: string) => void;
 }
 
 export function TableUser({
@@ -52,6 +56,10 @@ export function TableUser({
 	setPagination,
 	setModal,
 	setLimit,
+	setSearch,
+	refetch,
+	setStatus,
+	setIdTask,
 }: IProps) {
 	const columns: ColumnDef<IUser>[] = [
 		{
@@ -86,7 +94,11 @@ export function TableUser({
 			cell: ({ row }) => {
 				return (
 					<span className="flex items-center w-full gap-4">
-						<PopoverTable {...row.original} setModal={setModal} />
+						<PopoverTable
+							{...row.original}
+							setModal={setModal}
+							setIdTask={setIdTask}
+						/>
 					</span>
 				);
 			},
@@ -102,7 +114,12 @@ export function TableUser({
 
 	return (
 		<div className="flex flex-col w-full gap-8">
-			<SearchAndFilter />
+			<SearchAndFilter
+				refetch={refetch}
+				setLimit={setLimit}
+				setSearch={setSearch}
+				setStatus={setStatus}
+			/>
 
 			<div className="rounded-[8px] shadow-sm border border-gray-200 bg-white dark:bg-gray-750 dark:border-gray-600 w-full lg:max-w-none max-w-[90vw] overflow-auto text-gray-950 dark:text-gray-400 ">
 				<Table>
