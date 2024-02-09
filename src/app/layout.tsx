@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { Suspense } from "react";
-import { Providers } from "./components/providers";
+
 import "./globals.css";
+import { Providers } from "./providers";
 
 const inter = Poppins({
 	subsets: ["latin"],
