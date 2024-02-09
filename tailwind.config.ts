@@ -78,6 +78,7 @@ const config = {
             backgroundImage: {
                 login: "linear-gradient(180deg, rgba(96,165,250,1) 0%, rgba(37,99,235,1) 31%, rgba(30,64,175,1) 100%);",
                 "none-image": "unset",
+                "initial-notebook": "url('/home-background.jpg')",
             },
         },
     },

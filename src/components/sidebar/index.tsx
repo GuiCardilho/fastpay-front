@@ -41,8 +41,6 @@ export const Sidebar = () => {
 		absolute: { x: "-200%" },
 	};
 
-	console.log("show", show);
-
 	return (
 		<div
 			className={cn("flex ", {

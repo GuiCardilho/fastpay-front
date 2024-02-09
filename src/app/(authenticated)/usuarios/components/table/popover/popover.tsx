@@ -9,9 +9,13 @@ import {
 	HiOutlineEye,
 	HiOutlineXCircle,
 } from "react-icons/hi";
-import { IUser } from ".";
+import { IUser } from "..";
 
-export const PopoverTable = ({ ...user }: IUser) => {
+interface IProps extends IUser {
+	setModal: (value: boolean) => void;
+}
+
+export const PopoverTable = ({ setModal, ...user }: IProps) => {
 	const { logout } = userStore();
 	const router = useRouter();
 
@@ -40,10 +44,12 @@ export const PopoverTable = ({ ...user }: IUser) => {
 						<button
 							type="button"
 							className="flex items-center py-1 px-2 hover:bg-gray-100 cursor-pointer gap-2 rounded-md"
-							onClick={handleLogout}
+							onClick={() => {
+								setModal(true);
+							}}
 						>
 							<HiOutlineXCircle size={20} />
-							Inativar
+							Deletar
 						</button>
 					</div>
 				</Popover.Content>

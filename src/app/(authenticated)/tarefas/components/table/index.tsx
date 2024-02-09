@@ -20,15 +20,16 @@ import { FooterTable } from "./footerTable";
 import { PopoverTable } from "./popover/popover";
 import { SearchAndFilter } from "./serchAndFilter";
 
-export interface IUser {
+export interface ITask {
 	id: string;
-	name: string;
-	email: string;
-	phone: string;
+	title: string;
+	description: string;
+	status: string;
+	date: string;
 }
 
 interface IProps {
-	data: IUser[];
+	data: ITask[];
 	isLoading: boolean;
 
 	totalItems: number;
@@ -42,7 +43,7 @@ interface IProps {
 	setModal: (value: boolean) => void;
 }
 
-export function TableUser({
+export function TableTask({
 	data,
 	isLoading,
 	page = 1,
@@ -53,7 +54,7 @@ export function TableUser({
 	setModal,
 	setLimit,
 }: IProps) {
-	const columns: ColumnDef<IUser>[] = [
+	const columns: ColumnDef<ITask>[] = [
 		{
 			accessorKey: "id",
 			header: () => {
@@ -61,23 +62,31 @@ export function TableUser({
 			},
 		},
 		{
-			accessorKey: "name",
+			accessorKey: "title",
 			header: () => {
-				return <span className="flex items-center w-full gap-4">Nome</span>;
+				return <span className="flex items-center w-full gap-4">Titulo</span>;
 			},
 		},
 		{
-			accessorKey: "phone",
+			accessorKey: "date",
 			header: () => {
-				return <span className="flex items-center w-full gap-4">Telefone</span>;
+				return <span className="flex items-center w-full gap-4">Date</span>;
+			},
+			cell: ({ row }) => {
+				return (
+					<span className="flex items-center w-full gap-4">
+						{new Date(row.original.date).toLocaleDateString()}
+					</span>
+				);
 			},
 		},
 		{
-			accessorKey: "email",
+			accessorKey: "status",
 			header: () => {
-				return <span className="flex items-center w-full gap-4">E-mail</span>;
+				return <span className="flex items-center w-full gap-4">Status</span>;
 			},
 		},
+
 		{
 			accessorKey: "actions",
 			header: () => {

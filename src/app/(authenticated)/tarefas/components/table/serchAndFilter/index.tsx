@@ -3,12 +3,18 @@ import { Input } from "@/components/input";
 import { Select } from "@/components/select";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { HiOutlineUser, HiOutlineXCircle } from "react-icons/hi";
+import {
+	HiOutlineClipboardList,
+	HiOutlineSearch,
+	HiOutlineXCircle,
+} from "react-icons/hi";
 import * as yup from "yup";
 
 export const SearchAndFilter = () => {
 	const schema = yup.object().shape({
 		search: yup.string().notRequired(),
+		limit: yup.string().required(),
+		status: yup.string().required(),
 	});
 
 	const {
@@ -28,8 +34,21 @@ export const SearchAndFilter = () => {
 	return (
 		<div className="flex w-full justify-center items-end gap-4 flex-wrap md:flex-nowrap">
 			<Select
-				name="filter"
-				label="Status   "
+				name="limit"
+				label="Exibir"
+				control={control}
+				classNameRoot="flex-1 md:min-w-[200px] md:max-w-[100px]"
+				options={[
+					{ value: "5", label: "5" },
+					{ value: "10", label: "10" },
+					{ value: "15", label: "15" },
+					{ value: "20", label: "20" },
+				]}
+			/>
+
+			<Select
+				name="status"
+				label="Status"
 				control={control}
 				classNameRoot="flex-1 md:min-w-[200px] md:max-w-[100px]"
 				options={[
@@ -40,7 +59,9 @@ export const SearchAndFilter = () => {
 			/>
 
 			<Input
-				leftIcon={<HiOutlineUser size={20} className="text-gray-600" />}
+				leftIcon={
+					<HiOutlineClipboardList size={20} className="text-gray-600" />
+				}
 				classNameRoot="flex-1 md:min-w-[200px]"
 				name="search"
 				label="Pesquisar"
@@ -57,7 +78,12 @@ export const SearchAndFilter = () => {
 				}
 			/>
 			<div className="flex-1 md:min-w-[200px] md:max-w-[100px]">
-				<Button className="">Pesquisar</Button>
+				<Button className="">
+					<div className="flex gap-2 justify-center items-center">
+						<HiOutlineSearch size={20} className="text-white" />
+						Pesquisar
+					</div>
+				</Button>
 			</div>
 		</div>
 	);

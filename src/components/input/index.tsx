@@ -15,6 +15,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	rightIcon?: ReactNode;
 	mask?: string;
 	register?: any;
+	longText?: boolean;
 }
 
 export const Input = ({
@@ -27,6 +28,7 @@ export const Input = ({
 	rightIcon,
 	label,
 	register,
+	longText,
 	...props
 }: InputProps) => {
 	const type = isPassword ? "password" : "text";
@@ -54,7 +56,7 @@ export const Input = ({
 				</label>
 			)}
 
-			<div className="flex flex-col w-full h-full relative ">
+			<div className="flex flex-col w-full  relative ">
 				{leftIcon && (
 					<div
 						className={cn(
@@ -70,49 +72,93 @@ export const Input = ({
 					</div>
 				)}
 				<Controller
-					render={({ field }) => (
-						<input
-							{...field}
-							{...register}
-							id={props?.name}
-							className={cn(
-								"px-4 py-2 outline-none ring-2 rounded-md w-full focus:ring-blue-400  ring-gray-300 transition-all text-sm",
-								className,
-								{
-									"ring-red-600 focus:ring-red-800": errorLabel,
-								},
-								{
-									"pl-12": leftIcon,
-									"pr-12  ": rightIcon || isPassword,
-								},
-							)}
-							type={
-								type === "password"
-									? visible
-										? "text"
-										: "password"
-									: type
-									  ? type
-									  : "text"
-							}
-							onFocus={(e) => {
-								setFocus(true);
-								if (props.onFocus) props?.onFocus(e);
-							}}
-							onBlur={(e) => {
-								setFocus(false);
-								if (props.onBlur) props?.onBlur(e);
-								field.onBlur();
-							}}
-							onChange={(e) => {
-								if (props.mask) {
+					render={({ field }) =>
+						longText ? (
+							<textarea
+								{...field}
+								{...register}
+								id={props?.name}
+								className={cn(
+									"px-4 py-2 outline-none ring-2 rounded-md w-full focus:ring-blue-400  ring-gray-300 transition-all text-sm disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-500",
+									className,
+									{
+										"ring-red-600 focus:ring-red-800": errorLabel,
+									},
+									{
+										"pl-12": leftIcon,
+										"pr-12  ": rightIcon || isPassword,
+									},
+								)}
+								type={
+									type === "password"
+										? visible
+											? "text"
+											: "password"
+										: type
+										  ? type
+										  : "text"
 								}
-								field.onChange(e);
-								if (props.onChange) props?.onChange(e);
-							}}
-							{...props}
-						/>
-					)}
+								onFocus={(e) => {
+									setFocus(true);
+									if (props.onFocus) props?.onFocus(e as any);
+								}}
+								onBlur={(e) => {
+									setFocus(false);
+									if (props.onBlur) props?.onBlur(e as any);
+									field.onBlur();
+								}}
+								onChange={(e) => {
+									if (props.mask) {
+									}
+									field.onChange(e);
+									if (props.onChange) props?.onChange(e as any);
+								}}
+								{...props}
+							/>
+						) : (
+							<input
+								{...field}
+								{...register}
+								id={props?.name}
+								className={cn(
+									"px-4 py-2 outline-none ring-2 rounded-md w-full focus:ring-blue-400  ring-gray-300 transition-all text-sm disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-500",
+									className,
+									{
+										"ring-red-600 focus:ring-red-800": errorLabel,
+									},
+									{
+										"pl-12": leftIcon,
+										"pr-12  ": rightIcon || isPassword,
+									},
+								)}
+								type={
+									type === "password"
+										? visible
+											? "text"
+											: "password"
+										: type
+										  ? type
+										  : "text"
+								}
+								onFocus={(e) => {
+									setFocus(true);
+									if (props.onFocus) props?.onFocus(e);
+								}}
+								onBlur={(e) => {
+									setFocus(false);
+									if (props.onBlur) props?.onBlur(e);
+									field.onBlur();
+								}}
+								onChange={(e) => {
+									if (props.mask) {
+									}
+									field.onChange(e);
+									if (props.onChange) props?.onChange(e);
+								}}
+								{...props}
+							/>
+						)
+					}
 					control={control}
 					name={props.name || ""}
 				/>

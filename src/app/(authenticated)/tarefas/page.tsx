@@ -5,8 +5,12 @@ import { Heading } from "@/components/heading";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { HiOutlinePlus, HiOutlineUser, HiOutlineXCircle } from "react-icons/hi";
-import { TableUser } from "./components/table";
+import {
+	HiOutlineClipboardList,
+	HiOutlinePlus,
+	HiOutlineXCircle,
+} from "react-icons/hi";
+import { TableTask } from "./components/table";
 
 export default function Page() {
 	const router = useRouter();
@@ -15,15 +19,16 @@ export default function Page() {
 	const [modal, setModal] = useState(false);
 
 	const { data, isLoading } = useQuery({
-		queryKey: ["users", { page, limit }],
+		queryKey: ["tasks", { page, limit }],
 		queryFn: async () => {
 			return {
 				data: [
 					{
 						id: "1",
-						name: "John Doe",
-						email: "teste@teste.com",
-						phone: "123456789",
+						title: "Tarefa 1",
+						description: "Descrição 1",
+						date: "2021-09-01",
+						status: "pendente",
 					},
 				],
 				total: 1,
@@ -38,10 +43,10 @@ export default function Page() {
 		<div className="flex flex-col gap-4">
 			<div className="bg-white rounded-md p-4">
 				<Heading
-					title="Usuarios"
-					subtitle="Listagem de usuarios"
-					breadcrumb={[{ label: "Usuarios", link: "/usuarios" }]}
-					icon={<HiOutlineUser size={42} className="text-gray-600" />}
+					title="Tarefas"
+					subtitle="Listagem de Tarefas"
+					breadcrumb={[{ label: "Tarefas", link: "/tarefas" }]}
+					icon={<HiOutlineClipboardList size={42} className="text-gray-600" />}
 					button={{
 						children: (
 							<div className="flex gap-2 justify-center items-center">
@@ -50,14 +55,14 @@ export default function Page() {
 							</div>
 						),
 						onClick: () => {
-							router.push("/usuarios/cadastrar");
+							router.push("/tarefas/cadastrar");
 						},
 					}}
 				/>
 			</div>
 
 			<div className="bg-white rounded-md p-4">
-				<TableUser
+				<TableTask
 					data={data?.data || []}
 					isLoading={isLoading}
 					limit={limit}
@@ -76,8 +81,8 @@ export default function Page() {
 			<DialogModal
 				isOpen={modal}
 				setIsOpen={setModal}
-				title="Deletar usuario"
-				description="Deseja realmente deletar esse usuario? Essa ação não poderá ser desfeita."
+				title="Deletar tarefa"
+				description="Deseja realmente deletar essa tarefa? Essa ação não poderá ser desfeita."
 				icon={<HiOutlineXCircle size={42} className="text-red-500 " />}
 				variant="danger"
 				button={[

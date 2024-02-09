@@ -4,11 +4,7 @@ import { userStore } from "@/store/user";
 import * as Popover from "@radix-ui/react-popover";
 import { useRouter } from "next/navigation";
 
-import {
-	HiOutlineCog,
-	HiOutlineLogin,
-	HiOutlineUserCircle,
-} from "react-icons/hi";
+import { HiOutlineCog, HiOutlineLogin } from "react-icons/hi";
 
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -49,14 +45,14 @@ export const PopoverNavbar = () => {
 			<Popover.Portal>
 				<Popover.Content sideOffset={5} side="bottom" align="end">
 					<div className="flex flex-col space-y-2 bg-white px-6 py-2 rounded-md shadow border border-solid border-gray-100">
-						<button
+						{/* <button
 							type="button"
 							className="flex items-center py-2 px-4 hover:bg-gray-100 cursor-pointer gap-4 rounded-md"
 							onClick={() => router.push("/perfil")}
 						>
 							<HiOutlineUserCircle size={20} />
 							Perfil
-						</button>
+						</button> */}
 						<button
 							type="button"
 							className="flex items-center py-2 px-4 hover:bg-gray-100 cursor-pointer gap-4 rounded-md"

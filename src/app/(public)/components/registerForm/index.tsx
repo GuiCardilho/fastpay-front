@@ -48,8 +48,6 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 			.string()
 			.required("Telefone é obrigatório")
 			.test("phone", "Telefone inválido", (value) => {
-				console.log(value);
-				console.log(value?.replaceAll("_", "")?.length);
 				return value?.replaceAll("_", "")?.length === 20;
 			}),
 
