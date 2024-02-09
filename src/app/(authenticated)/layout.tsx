@@ -13,7 +13,7 @@ export default function RootLayout({
 				<Sidebar />
 				<div className="w-full flex flex-col flex-1 h-full min-h-[100svh] bg-gray-100">
 					<Navbar />
-					{children}
+					<div className="flex flex-col w-full p-4">{children}</div>
 				</div>
 			</div>
 		</Suspense>
