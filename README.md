@@ -1,6 +1,6 @@
 # Teste de Habilidade - Projeto FastPay
 
-Bem-vindo ao projeto de teste de habilidade para a empresa FastPay! Este projeto foi desenvolvido como parte do processo de recrutamento para avaliar suas habilidades técnicas.
+Bem-vindo ao projeto de teste de habilidade para a empresa FastPay! Este projeto foi desenvolvido como parte do processo de recrutamento para avaliar minhas habilidades técnicas.
 
 ## Sobre o Projeto
 
@@ -23,6 +23,8 @@ Navegue até o diretório do projeto:
 ```bash
 cd teste-habilidade-fastpay
 ```
+
+Crie o .env no next.config.js
 
 Instale as dependências do projeto utilizando o Yarn:
 

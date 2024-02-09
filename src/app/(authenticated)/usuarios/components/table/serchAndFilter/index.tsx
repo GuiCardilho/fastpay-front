@@ -14,15 +14,9 @@ interface IProps {
 	refetch: () => void;
 	setLimit: (limit: number) => void;
 	setSearch: (search: string) => void;
-	setStatus: (status: string) => void;
 }
 
-export const SearchAndFilter = ({
-	refetch,
-	setLimit,
-	setSearch,
-	setStatus,
-}: IProps) => {
+export const SearchAndFilter = ({ refetch, setLimit, setSearch }: IProps) => {
 	const schema = yup.object().shape({
 		search: yup.string().notRequired(),
 		limit: yup.string().required(),
@@ -44,12 +38,12 @@ export const SearchAndFilter = ({
 	const watchSearch = watch("search");
 
 	return (
-		<div className="flex w-full justify-center items-end gap-4 flex-wrap md:flex-nowrap">
+		<div className="flex w-full justify-center items-end gap-4 flex-wrap lg:flex-nowrap">
 			<Select
 				name="limit"
 				label="Exibir"
 				control={control}
-				classNameRoot="flex-1 md:min-w-[200px] md:max-w-[100px]"
+				classNameRoot="flex-1 lg:min-w-[200px] lg:max-w-[100px]"
 				options={[
 					{ value: "5", label: "5" },
 					{ value: "10", label: "10" },
@@ -59,22 +53,6 @@ export const SearchAndFilter = ({
 				onChange={(e) => {
 					console.log("e.target.value", e.target.value);
 					setLimit(Number(e.target.value));
-				}}
-			/>
-
-			<Select
-				name="status"
-				label="Status"
-				control={control}
-				classNameRoot="flex-1 md:min-w-[200px] md:max-w-[100px]"
-				options={[
-					{ value: "all", label: "Todos" },
-					{ value: "active", label: "Ativo" },
-					{ value: "inactive", label: "Inativo" },
-				]}
-				onChange={(e) => {
-					console.log("e.target.value", e.target.value);
-					setStatus(e.target.value);
 				}}
 			/>
 
@@ -98,7 +76,7 @@ export const SearchAndFilter = ({
 					setSearch(e.target.value);
 				}}
 			/>
-			<div className="flex-1 md:min-w-[200px] md:max-w-[100px]">
+			<div className="flex-1 lg:min-w-[200px] lg:max-w-[100px]">
 				<Button className="" onClick={refetch}>
 					<div className="flex gap-2 justify-center items-center">
 						<HiOutlineSearch size={20} className="text-white" />

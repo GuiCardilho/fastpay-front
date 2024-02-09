@@ -1,3 +1,5 @@
+"ue client";
+
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { api } from "@/services/api";
@@ -5,9 +7,12 @@ import { userStore } from "@/store/user";
 import { createToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 interface FormValues {
@@ -21,6 +26,7 @@ interface IProps {
 
 export const LoginForm = ({ toggleLogin }: IProps) => {
 	const { setUser } = userStore();
+	const router = useRouter();
 
 	const schema = yup.object().shape({
 		email: yup
@@ -44,16 +50,15 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 	const { mutate: login } = useMutation({
 		mutationKey: ["login"],
 		mutationFn: async (values: { email: string; password: string }) => {
-			const { data } = await api.post("/login", values);
-
+			const { data } = await api.post("/users/auth", values);
+			Cookies.set("user-auth", data.data);
 			return data;
 		},
 		onSuccess: (data) => {
-			console.log(data);
 			setUser({
-				name: data.name,
-				token: data.token,
+				token: data.data,
 			});
+			router.push("/usuarios");
 		},
 		onError: (error) => {
 			setError("email", {
@@ -65,10 +70,12 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 				message: "Email ou senha inválidos",
 			});
 
-			createToast({
+			const { message, ...option } = createToast({
 				message: "Email ou senha inválidos",
 				options: { type: "error" },
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 	});
 

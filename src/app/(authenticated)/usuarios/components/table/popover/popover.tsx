@@ -11,10 +11,10 @@ import {
 import { IUser } from "..";
 interface IProps extends IUser {
 	setModal: (value: boolean) => void;
-	setIdTask: (id: string) => void;
+	setIdUser: (id: string) => void;
 }
 
-export const PopoverTable = ({ setIdTask, setModal, ...task }: IProps) => {
+export const PopoverTable = ({ setIdUser, setModal, ...task }: IProps) => {
 	const router = useRouter();
 
 	return (
@@ -39,7 +39,8 @@ export const PopoverTable = ({ setIdTask, setModal, ...task }: IProps) => {
 							className="flex items-center py-1 px-2 hover:bg-gray-100 cursor-pointer gap-2 rounded-md"
 							onClick={() => {
 								setModal(true);
-								setIdTask(task?.id);
+
+								setIdUser(task?.id);
 							}}
 						>
 							<HiOutlineXCircle size={20} />

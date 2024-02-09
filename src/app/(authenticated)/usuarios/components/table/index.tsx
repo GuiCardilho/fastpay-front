@@ -42,8 +42,7 @@ interface IProps {
 	setModal: (value: boolean) => void;
 	refetch: () => void;
 	setSearch: (search: string) => void;
-	setStatus: (status: string) => void;
-	setIdTask: (id: string) => void;
+	setIdUser: (id: string) => void;
 }
 
 export function TableUser({
@@ -58,8 +57,8 @@ export function TableUser({
 	setLimit,
 	setSearch,
 	refetch,
-	setStatus,
-	setIdTask,
+
+	setIdUser,
 }: IProps) {
 	const columns: ColumnDef<IUser>[] = [
 		{
@@ -96,8 +95,9 @@ export function TableUser({
 					<span className="flex items-center w-full gap-4">
 						<PopoverTable
 							{...row.original}
+							id={row.original.id}
 							setModal={setModal}
-							setIdTask={setIdTask}
+							setIdUser={setIdUser}
 						/>
 					</span>
 				);
@@ -118,7 +118,6 @@ export function TableUser({
 				refetch={refetch}
 				setLimit={setLimit}
 				setSearch={setSearch}
-				setStatus={setStatus}
 			/>
 
 			<div className="rounded-[8px] shadow-sm border border-gray-200 bg-white dark:bg-gray-750 dark:border-gray-600 w-full lg:max-w-none max-w-[90vw] overflow-auto text-gray-950 dark:text-gray-400 ">

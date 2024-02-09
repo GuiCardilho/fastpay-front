@@ -1,7 +1,6 @@
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { api } from "@/services/api";
-import { userStore } from "@/store/user";
 import { createToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import {
 	HiOutlinePhone,
 	HiOutlineUser,
 } from "react-icons/hi";
+import { toast } from "react-toastify";
 import { useHookFormMask } from "use-mask-input";
 
 import * as yup from "yup";
@@ -20,6 +20,8 @@ import * as yup from "yup";
 interface FormValues {
 	email: string;
 	password: string;
+	phone: string;
+	name: string;
 }
 
 interface IProps {
@@ -27,8 +29,6 @@ interface IProps {
 }
 
 export const RegisterForm = ({ toggleLogin }: IProps) => {
-	const { setUser } = userStore();
-
 	const schema = yup.object().shape({
 		email: yup
 			.string()
@@ -48,7 +48,7 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 			.string()
 			.required("Telefone é obrigatório")
 			.test("phone", "Telefone inválido", (value) => {
-				return value?.replaceAll("_", "")?.length === 20;
+				return value?.replaceAll("_", "")?.length === 19;
 			}),
 
 		name: yup.string().required("Nome é obrigatório"),
@@ -58,43 +58,60 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 		register,
 		formState: { errors },
 		handleSubmit,
-		setError,
+
 		control,
 		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 		defaultValues: {
-			phone: "+055 15",
+			phone: "+55 15",
 		},
 	});
 
 	const registerWithMask = useHookFormMask(register);
 
-	const { mutate: createAconte } = useMutation({
-		mutationKey: ["createAconte"],
-		mutationFn: async (values: { email: string; password: string }) => {
-			console.log(values);
-			const { data } = await api.post("/register", values);
-
+	const { mutate: createAccount } = useMutation({
+		mutationKey: ["createAccount"],
+		mutationFn: async (values: FormValues) => {
+			const { data } = await api.post("/users", {
+				...values,
+				phone: values.phone
+					.replaceAll("_", "")
+					.replaceAll(" ", "")
+					.replaceAll("(", "")
+					.replaceAll(")", "")
+					.replaceAll("-", "")
+					.replaceAll("+", ""),
+			});
+			console.log(data);
 			return data;
 		},
 		onSuccess: (data) => {
-			console.log(data);
-			setUser({
-				name: data.name,
-				token: data.token,
+			reset();
+			toggleLogin();
+
+			const { message, ...option } = createToast({
+				message: "Usuário cadastrado com sucesso",
+				options: { type: "success" },
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
-		onError: (error) => {
-			createToast({
-				message: error.message,
+		onError: (error: any) => {
+			const { message, ...option } = createToast({
+				message:
+					typeof error.response.data.message === "string"
+						? error.response.data.message
+						: error.response.data.message[0] || "Erro ao cadastrar",
 				options: { type: "error" },
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 	});
 
 	const onSubmit = (values: FormValues) => {
-		createAconte(values);
+		createAccount(values);
 	};
 	return (
 		<Fragment>
@@ -115,7 +132,7 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 					placeholder="Digite seu telefone"
 					errorLabel={errors.phone?.message}
 					control={control}
-					register={registerWithMask("phone", "+999 (99) 99999-9999")}
+					register={registerWithMask("phone", "+99 (99) 99999-9999")}
 				/>
 
 				<Input

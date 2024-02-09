@@ -1,5 +1,4 @@
-import { themeStore } from "@/store/theme";
-import { Bounce, ToastOptions, toast } from "react-toastify";
+import { Bounce, ToastOptions } from "react-toastify";
 
 interface ToastProps {
 	message: string;
@@ -7,9 +6,8 @@ interface ToastProps {
 }
 
 export const createToast = ({ message, options }: ToastProps) => {
-	const { theme } = themeStore();
-
-	toast(message, {
+	return {
+		message,
 		position: "bottom-right",
 		autoClose: 5000,
 		hideProgressBar: false,
@@ -17,8 +15,8 @@ export const createToast = ({ message, options }: ToastProps) => {
 		pauseOnHover: true,
 		draggable: true,
 		progress: undefined,
-		theme: theme,
+		theme: "light",
 		transition: Bounce,
 		...options,
-	});
+	};
 };

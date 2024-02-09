@@ -6,6 +6,7 @@ import { createToast } from "@/utils/toast";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { HiOutlineClipboardList, HiOutlinePencilAlt } from "react-icons/hi";
+import { toast } from "react-toastify";
 import { CreateFormTask } from "./components/createFormTask";
 
 export default function Page() {
@@ -19,20 +20,27 @@ export default function Page() {
 			await api.post("/tasks", values);
 		},
 		onSuccess: () => {
-			createToast({
+			const { message, ...option } = createToast({
 				options: {
 					type: "success",
 				},
 				message: "Tarefa criado com sucesso",
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 		onError: (error: any) => {
-			createToast({
+			const { message, ...option } = createToast({
 				options: {
 					type: "error",
 				},
-				message: error.message,
+				message:
+					typeof error.response.data.message === "string"
+						? error.response.data.message
+						: error.response.data.message[0] || "Erro ao cadastrar",
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 	});
 

@@ -5,72 +5,77 @@ import { Heading } from "@/components/heading";
 import { api } from "@/services/api";
 import { createToast } from "@/utils/toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiOutlinePlus, HiOutlineUser, HiOutlineXCircle } from "react-icons/hi";
-import { TableUser } from "./components/table";
+import { toast } from "react-toastify";
+import { IUser, TableUser } from "./components/table";
+
+export interface IResponse {
+	users?: IUser[] | null;
+	totalItems: number;
+	totalPage: number;
+	limit: number;
+	page: number;
+}
 
 export default function Page() {
 	const router = useRouter();
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(10);
+	const [limit, setLimit] = useState(5);
 	const [search, setSearch] = useState("");
-	const [status, setStatus] = useState("all");
+
 	const [modal, setModal] = useState(false);
-	const [refetch, setRefetch] = useState(false);
-	const [idTask, setIdTask] = useState("");
+	const [refetchList, setRefetchList] = useState(false);
+	const [idUser, setIdUser] = useState("");
 
 	const { data, isLoading } = useQuery({
-		queryKey: ["users", { page, limit, status, refetch }],
+		queryKey: ["users", { page, limit, refetchList }],
 		queryFn: async () => {
-			// const { data } = await api.get("/tasks", {
-			//     params: {
-			//         page,
-			//         limit,
-			//         search,
-			//         status,
-			//     },
-			// });
-
-			return {
-				data: [
-					{
-						id: "1",
-						name: "John Doe",
-						email: "teste@teste.com",
-						phone: "123456789",
-					},
-				],
-				total: 1,
-				page: 1,
-				limit: 10,
-				totalPages: 1,
-			};
+			const { data } = await api.get<AxiosResponse<IResponse>>("/users", {
+				params: {
+					limit,
+					page,
+					filter: search || undefined,
+				},
+			});
+			return data.data;
 		},
 	});
 
-	const { mutate: deleteTask } = useMutation({
-		mutationKey: ["deleteTask"],
-		onMutate: async (id) => {
-			await api.delete(`/tasks/${id}`);
-		},
-		onSuccess: () => {
-			setRefetch(!refetch);
-			createToast({
+	const { mutate: deleteUser } = useMutation({
+		mutationKey: ["deleteUser"],
+		onMutate: async () => {
+			await api.delete(`/users/${idUser}`);
+
+			setRefetchList((prev) => !prev);
+
+			const { message, ...option } = createToast({
 				message: "Tarefa deletada com sucesso",
 				options: {
 					type: "success",
 				},
 			});
+			//@ts-ignore
+			toast(message, option);
+			router.push("/usuarios");
 		},
-		onError: (error) => {
-			setRefetch(!refetch);
-			createToast({
-				message: error.message,
+		onError: (error: any) => {
+			console.log(error, "Errorr");
+			setRefetchList((prev) => !prev);
+
+			const { message, ...option } = createToast({
+				message:
+					typeof error.response.data.message === "string"
+						? error.response.data.message
+						: error.response.data.message[0] || "Erro ao cadastrar",
 				options: {
 					type: "error",
 				},
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 	});
 	return (
@@ -97,18 +102,17 @@ export default function Page() {
 
 			<div className="bg-white rounded-md p-4">
 				<TableUser
-					data={data?.data || []}
+					data={data?.users || []}
 					isLoading={isLoading}
 					limit={limit}
 					page={page}
-					totalPages={data?.totalPages || 1}
-					totalItems={data?.total || 0}
-					refetch={() => setRefetch(!refetch)}
+					totalPages={data?.totalPage || 1}
+					totalItems={data?.totalItems || 0}
+					refetch={() => setRefetchList((prev) => !prev)}
 					setPagination={(page) => setPage(page)}
 					setModal={setModal}
-					setIdTask={setIdTask}
+					setIdUser={setIdUser}
 					setSearch={(search) => setSearch(search)}
-					setStatus={(status) => setStatus(status)}
 					setLimit={(limit) => {
 						setLimit(limit);
 						setPage(1);
@@ -132,7 +136,7 @@ export default function Page() {
 					{
 						children: "Deletar",
 						onClick: () => {
-							deleteTask();
+							deleteUser();
 							setModal(false);
 						},
 						variant: "danger",

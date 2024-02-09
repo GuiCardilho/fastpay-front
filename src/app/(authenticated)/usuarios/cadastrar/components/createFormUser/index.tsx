@@ -32,7 +32,7 @@ export const CreateFormUser = (props: IProps) => {
 			.required("Telefone é obrigatório")
 			.test("phone", "Telefone inválido", (value) => {
 				if (value.includes("+"))
-					return value?.replaceAll("_", "")?.length === 20;
+					return value?.replaceAll("_", "")?.length === 19;
 				return value?.replaceAll("_", "")?.length === 14;
 			}),
 		name: yup.string().required("Nome é obrigatório"),
@@ -83,7 +83,7 @@ export const CreateFormUser = (props: IProps) => {
 						placeholder="Digite seu telefone"
 						errorLabel={errors.phone?.message}
 						control={control}
-						register={registerWithMask("phone", "+999 (99) 99999-9999")}
+						register={registerWithMask("phone", "+99 (99) 99999-9999")}
 						classNameRoot=" flex-1 min-w-[250px]"
 					/>
 				</div>

@@ -12,6 +12,7 @@ import {
 	HiOutlinePlus,
 	HiOutlineXCircle,
 } from "react-icons/hi";
+import { toast } from "react-toastify";
 import { TableTask } from "./components/table";
 
 export default function Page() {
@@ -21,20 +22,20 @@ export default function Page() {
 	const [search, setSearch] = useState("");
 	const [status, setStatus] = useState("all");
 	const [modal, setModal] = useState(false);
-	const [refetch, setRefetch] = useState(false);
+	const [refetchList, setRefetchList] = useState(false);
 	const [idTask, setIdTask] = useState("");
 
 	const { data, isLoading } = useQuery({
-		queryKey: ["tasks", { page, limit, status, refetch }],
+		queryKey: ["tasks", { page, limit, status, refetchList }],
 		queryFn: async () => {
-			// const { data } = await api.get("/tasks", {
-			//     params: {
-			//         page,
-			//         limit,
-			//         search,
-			//         status,
-			//     },
-			// });
+			const { data } = await api.get("/tasks", {
+				params: {
+					page,
+					limit,
+					filter: search || undefined,
+					status,
+				},
+			});
 
 			return {
 				data: [
@@ -57,25 +58,35 @@ export default function Page() {
 	const { mutate: deleteTask } = useMutation({
 		mutationKey: ["deleteTask"],
 		onMutate: async (id) => {
+			console.log("chamou ");
 			await api.delete(`/tasks/${id}`);
 		},
 		onSuccess: () => {
-			setRefetch(!refetch);
-			createToast({
+			setRefetchList((prev) => !prev);
+
+			const { message, ...option } = createToast({
 				message: "Tarefa deletada com sucesso",
 				options: {
 					type: "success",
 				},
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
-		onError: (error) => {
-			setRefetch(!refetch);
-			createToast({
-				message: error.message,
+		onError: (error: any) => {
+			setRefetchList((prev) => !prev);
+
+			const { message, ...option } = createToast({
+				message:
+					typeof error.response.data.message === "string"
+						? error.response.data.message
+						: error.response.data.message[0] || "Erro ao deletar",
 				options: {
 					type: "error",
 				},
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 	});
 
@@ -109,7 +120,7 @@ export default function Page() {
 					page={page}
 					totalPages={data?.totalPages || 1}
 					totalItems={data?.total || 0}
-					refetch={() => setRefetch(!refetch)}
+					refetch={() => setRefetchList((prev) => !prev)}
 					setPagination={(page) => setPage(page)}
 					setModal={setModal}
 					setIdTask={setIdTask}

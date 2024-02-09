@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface IUser {
 	user: {
 		token: string;
-		name: string;
+		name?: string;
 	};
 	setUser: (user: IUser["user"]) => void;
 	logout: () => void;

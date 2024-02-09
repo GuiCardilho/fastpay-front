@@ -10,6 +10,7 @@ import {
 	HiOutlinePencilAlt,
 	HiOutlineUser,
 } from "react-icons/hi";
+import { toast } from "react-toastify";
 import { EditFormUser } from "./components/editForm";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -21,44 +22,50 @@ export default function Page({ params }: { params: { id: string } }) {
 		queryFn: async () => {
 			const { data } = await api.get(`/users/${params.id}`);
 
-			return {
-				data: {
-					id: "1",
-					name: "John Doe",
-					email: "teste@teste.com",
-					phone: "05515998518071",
-				},
-
-				total: 1,
-				page: 1,
-				limit: 10,
-				totalPages: 1,
-			};
+			return data;
 		},
 	});
 
 	const { mutate } = useMutation({
 		mutationKey: ["editUser"],
-		mutationFn: async (values) => {
+		mutationFn: async (values: any) => {
 			setEdit(false);
 			console.log(values);
-			await api.put(`/tasks/${params.id}`, values);
+
+			const payload = {
+				...values,
+				phone: values.phone
+					.replaceAll("_", "")
+					.replaceAll(" ", "")
+					.replaceAll("(", "")
+					.replaceAll(")", "")
+					.replaceAll("-", "")
+					.replaceAll("+", ""),
+			};
+			await api.put(`/users/${params.id}`, { ...payload });
 		},
 		onSuccess: () => {
-			createToast({
+			const { message, ...option } = createToast({
 				options: {
 					type: "success",
 				},
 				message: "Usuario editado com sucesso",
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 		onError: (error: any) => {
-			createToast({
+			const { message, ...option } = createToast({
 				options: {
 					type: "error",
 				},
-				message: error.message,
+				message:
+					typeof error.response.data.message === "string"
+						? error.response.data.message
+						: error.response.data.message[0] || "Erro ao editar usuario",
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 	});
 

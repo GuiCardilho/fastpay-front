@@ -10,6 +10,7 @@ import {
 	HiOutlineClipboardList,
 	HiOutlinePencilAlt,
 } from "react-icons/hi";
+import { toast } from "react-toastify";
 import { EditFormTask } from "./components/editForm";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -46,20 +47,27 @@ export default function Page({ params }: { params: { id: string } }) {
 			await api.put(`/tasks/${params.id}`, values);
 		},
 		onSuccess: () => {
-			createToast({
+			const { message, ...option } = createToast({
 				options: {
 					type: "success",
 				},
 				message: "Tarefas editado com sucesso",
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 		onError: (error: any) => {
-			createToast({
+			const { message, ...option } = createToast({
 				options: {
 					type: "error",
 				},
-				message: error.message,
+				message:
+					typeof error.response.data.message === "string"
+						? error.response.data.message
+						: error.response.data.message[0] || "Erro ao cadastrar",
 			});
+			//@ts-ignore
+			toast(message, option);
 		},
 	});
 
