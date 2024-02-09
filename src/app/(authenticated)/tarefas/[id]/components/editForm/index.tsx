@@ -2,7 +2,11 @@ import { Input } from "@/components/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { HiOutlineCalendar, HiOutlineUser } from "react-icons/hi";
+import {
+	HiOutlineCalendar,
+	HiOutlineUser,
+	HiOutlineViewList,
+} from "react-icons/hi";
 
 import * as yup from "yup";
 
@@ -56,7 +60,7 @@ export const EditFormTask = (props: IProps) => {
 			<div className="flex gap-4 transition-all w-full flex-wrap">
 				<div className="flex gap-4 transition-all w-full flex-wrap">
 					<Input
-						leftIcon={<HiOutlineUser size={20} />}
+						leftIcon={<HiOutlineViewList size={20} />}
 						name="title"
 						label="Titulo"
 						placeholder="Digite o título da tarefa"
@@ -80,7 +84,6 @@ export const EditFormTask = (props: IProps) => {
 				</div>
 
 				<Input
-					leftIcon={<HiOutlineUser size={20} />}
 					name="description"
 					label="Descrição"
 					placeholder="Digite a descrição da tarefa"

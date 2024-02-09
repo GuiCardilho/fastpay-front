@@ -39,7 +39,6 @@ export const PopoverTable = ({ setIdUser, setModal, ...task }: IProps) => {
 							className="flex items-center py-1 px-2 hover:bg-gray-100 cursor-pointer gap-2 rounded-md"
 							onClick={() => {
 								setModal(true);
-
 								setIdUser(task?.id);
 							}}
 						>

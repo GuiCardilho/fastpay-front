@@ -4,6 +4,7 @@ import { Heading } from "@/components/heading";
 import { api } from "@/services/api";
 import { createToast } from "@/utils/toast";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiOutlineClipboardList, HiOutlinePencilAlt } from "react-icons/hi";
 import { toast } from "react-toastify";
@@ -12,6 +13,7 @@ import { CreateFormTask } from "./components/createFormTask";
 export default function Page() {
 	const [isSubmit, setIsSubmit] = useState(false);
 	const [send, setSend] = useState(false);
+	const router = useRouter();
 
 	const { mutate } = useMutation({
 		mutationKey: ["createTask"],
@@ -28,6 +30,7 @@ export default function Page() {
 			});
 			//@ts-ignore
 			toast(message, option);
+			router.push("/tarefas");
 		},
 		onError: (error: any) => {
 			const { message, ...option } = createToast({

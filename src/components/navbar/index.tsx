@@ -34,6 +34,7 @@ export const Navbar = () => {
 							alt="FastPay"
 							width={150}
 							height={100}
+							priority
 						/>
 					</div>
 				</div>

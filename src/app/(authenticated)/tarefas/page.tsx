@@ -13,7 +13,15 @@ import {
 	HiOutlineXCircle,
 } from "react-icons/hi";
 import { toast } from "react-toastify";
-import { TableTask } from "./components/table";
+import { ITask, TableTask } from "./components/table";
+
+export interface IResponse {
+	tasks?: ITask[] | null;
+	totalItems: number;
+	totalPage: number;
+	limit: number;
+	page: number;
+}
 
 export default function Page() {
 	const router = useRouter();
@@ -37,29 +45,26 @@ export default function Page() {
 				},
 			});
 
-			return {
-				data: [
-					{
-						id: "1",
-						title: "Tarefa 1",
-						description: "Descrição 1",
-						date: "2021-09-01",
-						status: "pendente",
-					},
-				],
-				total: 1,
-				page: 1,
-				limit: 10,
-				totalPages: 1,
-			};
+			return data;
 		},
 	});
 
 	const { mutate: deleteTask } = useMutation({
 		mutationKey: ["deleteTask"],
-		onMutate: async (id) => {
-			console.log("chamou ");
-			await api.delete(`/tasks/${id}`);
+		onMutate: async () => {
+			await api.delete(`/tasks/${idTask}`);
+
+			setRefetchList((prev) => !prev);
+
+			const { message, ...option } = createToast({
+				message: "Tarefa deletada com sucesso",
+				options: {
+					type: "success",
+				},
+			});
+			//@ts-ignore
+			toast(message, option);
+			router.push("/tarefas");
 		},
 		onSuccess: () => {
 			setRefetchList((prev) => !prev);
@@ -114,12 +119,12 @@ export default function Page() {
 
 			<div className="bg-white rounded-md p-4">
 				<TableTask
-					data={data?.data || []}
+					data={data?.tasks || []}
 					isLoading={isLoading}
 					limit={limit}
 					page={page}
-					totalPages={data?.totalPages || 1}
-					totalItems={data?.total || 0}
+					totalPages={data?.totalPage || 1}
+					totalItems={data?.totalItems || 0}
 					refetch={() => setRefetchList((prev) => !prev)}
 					setPagination={(page) => setPage(page)}
 					setModal={setModal}

@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -18,7 +19,10 @@ const useStore = create<IUser>()(
 				name: "",
 			},
 			setUser: (user: IUser["user"]) => set({ user }),
-			logout: () => set({ user: { token: "", name: "" } }),
+			logout: () => {
+				set({ user: { token: "", name: "" } });
+				Cookies.remove("user-auth");
+			},
 		}),
 		{
 			name: "user-store",

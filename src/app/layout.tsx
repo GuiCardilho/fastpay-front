@@ -23,7 +23,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="pt-BR">
-			<body className={`${inter.className} bg-initial-notebook bg-cover`}>
+			<body
+				className={`${inter.className} bg-initial-notebook bg-cover bg-no-repeat`}
+			>
 				<Providers>
 					<Suspense>{children}</Suspense>
 				</Providers>

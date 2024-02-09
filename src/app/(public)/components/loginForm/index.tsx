@@ -16,8 +16,8 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 interface FormValues {
-	email: string;
-	password: string;
+	emailLogin: string;
+	passwordLogin: string;
 }
 
 interface IProps {
@@ -29,11 +29,11 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 	const router = useRouter();
 
 	const schema = yup.object().shape({
-		email: yup
+		emailLogin: yup
 			.string()
 			.email("Email deve ser um email válido")
 			.required("Email é obrigatório"),
-		password: yup.string().required("Senha é obrigatória"),
+		passwordLogin: yup.string().required("Senha é obrigatória"),
 	});
 
 	const {
@@ -49,8 +49,14 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 
 	const { mutate: login } = useMutation({
 		mutationKey: ["login"],
-		mutationFn: async (values: { email: string; password: string }) => {
-			const { data } = await api.post("/users/auth", values);
+		mutationFn: async (values: {
+			emailLogin: string;
+			passwordLogin: string;
+		}) => {
+			const { data } = await api.post("/users/auth", {
+				email: values.emailLogin,
+				password: values.passwordLogin,
+			});
 			Cookies.set("user-auth", data.data);
 			return data;
 		},
@@ -61,11 +67,11 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 			router.push("/usuarios");
 		},
 		onError: (error) => {
-			setError("email", {
+			setError("emailLogin", {
 				type: "manual",
 				message: " ",
 			});
-			setError("password", {
+			setError("passwordLogin", {
 				type: "manual",
 				message: "Email ou senha inválidos",
 			});
@@ -87,19 +93,19 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 			<div className="flex flex-col gap-4 transition-all w-full">
 				<Input
 					leftIcon={<HiOutlineMail size={20} />}
-					name="email"
+					name="emailLogin"
 					label="Email"
 					placeholder="Digite seu email"
-					errorLabel={errors.email?.message}
+					errorLabel={errors.emailLogin?.message}
 					control={control}
 				/>
 
 				<Input
 					leftIcon={<HiOutlineLockClosed size={20} />}
-					name="password"
+					name="passwordLogin"
 					label="Senha"
 					placeholder="Digite sua senha"
-					errorLabel={errors.password?.message}
+					errorLabel={errors.passwordLogin?.message}
 					control={control}
 					isPassword
 				/>
