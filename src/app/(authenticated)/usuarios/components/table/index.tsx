@@ -16,6 +16,8 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
+import { FooterTable } from "../footerTable";
+import { SearchAndFilter } from "../serchAndFilter";
 import { PopoverTable } from "./popover";
 
 export interface IUser {
@@ -28,9 +30,27 @@ export interface IUser {
 interface IProps {
 	data: IUser[];
 	isLoading: boolean;
+
+	totalItems: number;
+	limit: number;
+
+	page: number;
+	totalPages: number;
+
+	setPagination: (page: number) => void;
+	setLimit: (limit: number) => void;
 }
 
-export function TableUser({ data, isLoading }: IProps) {
+export function TableUser({
+	data,
+	isLoading,
+	page = 1,
+	totalPages = 1,
+	limit,
+	totalItems = 0,
+	setPagination,
+	setLimit,
+}: IProps) {
 	const columns: ColumnDef<IUser>[] = [
 		{
 			accessorKey: "id",
@@ -79,8 +99,10 @@ export function TableUser({ data, isLoading }: IProps) {
 	});
 
 	return (
-		<>
-			<div className="rounded-[8px] shadow-sm border border-gray-200 bg-white dark:bg-gray-750 dark:border-gray-600 w-full lg:max-w-none max-w-[90vw] overflow-auto text-gray-950 dark:text-gray-400">
+		<div className="flex flex-col w-full gap-8">
+			<SearchAndFilter />
+
+			<div className="rounded-[8px] shadow-sm border border-gray-200 bg-white dark:bg-gray-750 dark:border-gray-600 w-full lg:max-w-none max-w-[90vw] overflow-auto text-gray-950 dark:text-gray-400 ">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup: any) => (
@@ -143,6 +165,14 @@ export function TableUser({ data, isLoading }: IProps) {
 					</TableBody>
 				</Table>
 			</div>
-		</>
+
+			<FooterTable
+				count={data.length}
+				total={totalItems}
+				totalPages={totalPages}
+				page={page}
+				setPagination={setPagination}
+			/>
+		</div>
 	);
 }

@@ -2,9 +2,8 @@ import { cn } from "@/utils/tailwind";
 import { ClassValue } from "clsx";
 import { ReactNode, useState } from "react";
 import { Controller } from "react-hook-form";
-import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 	name: string;
 	errorLabel?: string;
 	classNameRoot?: ClassValue;
@@ -15,23 +14,24 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	rightIcon?: ReactNode;
 	mask?: string;
 	register?: any;
+	options?: {
+		value: string;
+		label: string;
+	}[];
 }
 
-export const Input = ({
+export const Select = ({
 	errorLabel,
 	className,
 	classNameRoot,
 	control,
-	isPassword,
+	options,
 	leftIcon,
 	rightIcon,
 	label,
 	register,
 	...props
 }: InputProps) => {
-	const type = isPassword ? "password" : "text";
-
-	const [visible, setVisible] = useState(false);
 	const [focus, setFocus] = useState(false);
 
 	return (
@@ -71,7 +71,7 @@ export const Input = ({
 				)}
 				<Controller
 					render={({ field }) => (
-						<input
+						<select
 							{...field}
 							{...register}
 							id={props?.name}
@@ -83,18 +83,9 @@ export const Input = ({
 								},
 								{
 									"pl-12": leftIcon,
-									"pr-12  ": rightIcon || isPassword,
+									"pr-12  ": rightIcon,
 								},
 							)}
-							type={
-								type === "password"
-									? visible
-										? "text"
-										: "password"
-									: type
-									  ? type
-									  : "text"
-							}
 							onFocus={(e) => {
 								setFocus(true);
 								if (props.onFocus) props?.onFocus(e);
@@ -111,7 +102,13 @@ export const Input = ({
 								if (props.onChange) props?.onChange(e);
 							}}
 							{...props}
-						/>
+						>
+							{options?.map((option) => (
+								<option key={option.value} value={option.value}>
+									{option.label}
+								</option>
+							))}
+						</select>
 					)}
 					control={control}
 					name={props.name || ""}
@@ -130,40 +127,6 @@ export const Input = ({
 					>
 						{rightIcon}
 					</div>
-				)}
-
-				{!rightIcon && isPassword && (
-					<>
-						{visible ? (
-							<HiOutlineEye
-								className={cn(
-									"absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer mr-2",
-									{
-										"!text-red-600": errorLabel,
-										"text-gray-500": !focus,
-										"text-blue-500": focus,
-									},
-								)}
-								onClick={() => setVisible(!visible)}
-								size={20}
-							/>
-						) : (
-							<HiOutlineEyeOff
-								className={cn(
-									"absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer mr-2",
-									{
-										"!text-red-600": errorLabel,
-										"text-gray-500": !focus,
-										"text-blue-500": focus,
-									},
-								)}
-								onClick={() => {
-									setVisible(!visible);
-								}}
-								size={20}
-							/>
-						)}
-					</>
 				)}
 			</div>
 
