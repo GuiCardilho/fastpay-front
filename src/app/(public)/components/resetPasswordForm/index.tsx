@@ -41,7 +41,7 @@ export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 			.min(6, "Senha deve ter no mínimo 6 caracteres")
 			.max(20, "Senha deve ter no máximo 20 caracteres")
 			.matches(
-				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%¨&*()_+`{}^Ç:><"'ªº§¬¢£³²¹/\W|_/])[A-Za-z\d!@#$%¨&*()_+`{}^Ç:><"'ªº§¬¢£³²¹/\W|_/]{6,20}$/,
 				"Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial",
 			),
 	});
