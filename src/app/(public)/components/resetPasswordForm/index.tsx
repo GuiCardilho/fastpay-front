@@ -35,7 +35,15 @@ export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 			.email("Email deve ser um email válido")
 			.required("Email é obrigatório"),
 		code: yup.string().required("Código é obrigatório"),
-		password: yup.string().required("Senha é obrigatória"),
+		password: yup
+			.string()
+			.required("Senha é obrigatória")
+			.min(6, "Senha deve ter no mínimo 6 caracteres")
+			.max(20, "Senha deve ter no máximo 20 caracteres")
+			.matches(
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
+				"Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial",
+			),
 	});
 
 	const {
