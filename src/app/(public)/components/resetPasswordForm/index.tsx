@@ -9,9 +9,9 @@ import { useForm } from "react-hook-form";
 import {
 	HiOutlineLockClosed,
 	HiOutlineMail,
-	HiOutlinePhone,
 	HiOutlineUser,
 } from "react-icons/hi";
+
 import { toast } from "react-toastify";
 import { useHookFormMask } from "use-mask-input";
 
@@ -21,38 +21,21 @@ import { SelectSection } from "../../page";
 interface FormValues {
 	email: string;
 	password: string;
-	phone: string;
-	name: string;
+	code: string;
 }
 
 interface IProps {
 	toggleLogin: (param: SelectSection) => void;
 }
 
-export const RegisterForm = ({ toggleLogin }: IProps) => {
+export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 	const schema = yup.object().shape({
 		email: yup
 			.string()
 			.email("Email deve ser um email válido")
 			.required("Email é obrigatório"),
-		password: yup
-			.string()
-			.required("Senha é obrigatória")
-			.min(6, "Senha deve ter no mínimo 6 caracteres")
-			.max(20, "Senha deve ter no máximo 20 caracteres")
-			.matches(
-				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
-				"Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial",
-			),
-
-		phone: yup
-			.string()
-			.required("Telefone é obrigatório")
-			.test("phone", "Telefone inválido", (value) => {
-				return value?.replaceAll("_", "")?.length === 19;
-			}),
-
-		name: yup.string().required("Nome é obrigatório"),
+		code: yup.string().required("Código é obrigatório"),
+		password: yup.string().required("Senha é obrigatória"),
 	});
 
 	const {
@@ -62,27 +45,50 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 
 		control,
 		reset,
+		watch,
 	} = useForm({
 		resolver: yupResolver(schema),
-		defaultValues: {
-			phone: "+55 15",
-		},
 	});
 
+	const watchEmail = watch("email");
+
 	const registerWithMask = useHookFormMask(register);
+
+	const { mutate: sendEmail } = useMutation({
+		mutationKey: ["sendEmailForResetPassword"],
+		mutationFn: async (values: FormValues["email"]) => {
+			const { data } = await api.post("/users/reset", {
+				email: values,
+			});
+			console.log(data);
+			return data;
+		},
+		onSuccess: (data) => {
+			const { message, ...option } = createToast({
+				message: "Código enviado com sucesso",
+				options: { type: "success" },
+			});
+			//@ts-ignore
+			toast(message, option);
+		},
+		onError: (error: any) => {
+			const { message, ...option } = createToast({
+				message:
+					typeof error.response.data.message === "string"
+						? error.response.data.message
+						: error.response.data.message[0] || "Erro ao enviar código",
+				options: { type: "error" },
+			});
+			//@ts-ignore
+			toast(message, option);
+		},
+	});
 
 	const { mutate: createAccount } = useMutation({
 		mutationKey: ["createAccount"],
 		mutationFn: async (values: FormValues) => {
-			const { data } = await api.post("/users", {
+			const { data } = await api.post("/users/reset/update", {
 				...values,
-				phone: values.phone
-					.replaceAll("_", "")
-					.replaceAll(" ", "")
-					.replaceAll("(", "")
-					.replaceAll(")", "")
-					.replaceAll("-", "")
-					.replaceAll("+", ""),
 			});
 			console.log(data);
 			return data;
@@ -117,31 +123,35 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-4 transition-all w-full">
+				<div className="w-full flex flex-row gap-2 items-end justify-end">
+					<Input
+						leftIcon={<HiOutlineMail size={20} />}
+						name="email"
+						label="Email"
+						placeholder="Digite seu email"
+						errorLabel={errors.email?.message}
+						control={control}
+					/>
+					<Button
+						className="w-full max-w-[200px] h-fit"
+						onClick={() => {
+							sendEmail(watchEmail);
+						}}
+					>
+						<div className="w-full flex-nowrap flex flex-row gap-2">
+							{" "}
+							<HiOutlineMail size={20} />
+							<p>Enviar email</p>
+						</div>
+					</Button>
+				</div>
+
 				<Input
 					leftIcon={<HiOutlineUser size={20} />}
-					name="name"
-					label="Nome"
-					placeholder="Digite seu nome"
-					errorLabel={errors.name?.message}
-					control={control}
-				/>
-
-				<Input
-					leftIcon={<HiOutlinePhone size={20} />}
-					name="phone"
-					label="Telefone"
-					placeholder="Digite seu telefone"
-					errorLabel={errors.phone?.message}
-					control={control}
-					register={registerWithMask("phone", "+99 (99) 99999-9999")}
-				/>
-
-				<Input
-					leftIcon={<HiOutlineMail size={20} />}
-					name="email"
-					label="Email"
-					placeholder="Digite seu email"
-					errorLabel={errors.email?.message}
+					name="code"
+					label="Código"
+					placeholder="Digite seu código"
+					errorLabel={errors.code?.message}
 					control={control}
 				/>
 

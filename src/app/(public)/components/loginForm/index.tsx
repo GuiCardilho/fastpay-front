@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+import { SelectSection } from "../../page";
 
 interface FormValues {
 	emailLogin: string;
@@ -21,7 +22,7 @@ interface FormValues {
 }
 
 interface IProps {
-	toggleLogin: () => void;
+	toggleLogin: (param: SelectSection) => void;
 }
 
 export const LoginForm = ({ toggleLogin }: IProps) => {
@@ -110,16 +111,28 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 					isPassword
 				/>
 
-				<button
-					className="text-xs text-blue-600 font-medium text-start w-fit content-start cursor-pointer transition-all hover:text-blue-700 active:text-blue-900"
-					type="button"
-					onClick={() => {
-						reset();
-						toggleLogin();
-					}}
-				>
-					Não tem uma conta?
-				</button>
+				<div className="w-full flex items-center justify-between ">
+					<button
+						className="text-xs text-blue-600 font-medium text-start w-fit content-start cursor-pointer transition-all hover:text-blue-700 active:text-blue-900"
+						type="button"
+						onClick={() => {
+							reset();
+							toggleLogin("register");
+						}}
+					>
+						Não tem uma conta?
+					</button>
+					<button
+						className="text-xs text-gray-600 font-medium text-start w-fit content-start cursor-pointer transition-all hover:text-blue-700 active:text-blue-900"
+						type="button"
+						onClick={() => {
+							reset();
+							toggleLogin("resetPassword");
+						}}
+					>
+						Recuperar senha
+					</button>
+				</div>
 			</div>
 
 			<Button onClick={handleSubmit(onSubmit)}>Entrar</Button>
