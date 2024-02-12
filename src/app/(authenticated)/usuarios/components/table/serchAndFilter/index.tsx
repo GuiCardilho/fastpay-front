@@ -75,6 +75,11 @@ export const SearchAndFilter = ({ refetch, setLimit, setSearch }: IProps) => {
 					console.log("e.target.value", e.target.value);
 					setSearch(e.target.value);
 				}}
+				onKeyUp={(e) => {
+					if (e.key === "Enter") {
+						refetch();
+					}
+				}}
 			/>
 			<div className="flex-1 lg:min-w-[200px] lg:max-w-[100px]">
 				<Button className="" onClick={refetch}>

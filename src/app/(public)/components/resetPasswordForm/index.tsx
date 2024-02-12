@@ -145,6 +145,11 @@ export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 						onClick={() => {
 							sendEmail(watchEmail);
 						}}
+						onKeyUp={(e) => {
+							if (e.key === "Enter") {
+								sendEmail(watchEmail);
+							}
+						}}
 					>
 						<div className="w-full flex-nowrap flex flex-row gap-2 justify-center items-center sm:justify-start">
 							{" "}
@@ -161,6 +166,11 @@ export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 					placeholder="Digite seu código"
 					errorLabel={errors.code?.message}
 					control={control}
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<Input
@@ -171,6 +181,11 @@ export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 					errorLabel={errors.password?.message}
 					control={control}
 					isPassword
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<button

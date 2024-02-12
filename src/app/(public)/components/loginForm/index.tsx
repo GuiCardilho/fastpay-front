@@ -99,6 +99,11 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 					placeholder="Digite seu email"
 					errorLabel={errors.emailLogin?.message}
 					control={control}
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<Input
@@ -109,6 +114,11 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 					errorLabel={errors.passwordLogin?.message}
 					control={control}
 					isPassword
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<div className="w-full flex items-start sm:items-center justify-start sm:justify-between flex-col sm:flex-row xs:gap-2">

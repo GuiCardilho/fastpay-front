@@ -124,6 +124,11 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 					placeholder="Digite seu nome"
 					errorLabel={errors.name?.message}
 					control={control}
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<Input
@@ -134,6 +139,11 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 					errorLabel={errors.phone?.message}
 					control={control}
 					register={registerWithMask("phone", "+99 (99) 99999-9999")}
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<Input
@@ -143,6 +153,11 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 					placeholder="Digite seu email"
 					errorLabel={errors.email?.message}
 					control={control}
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<Input
@@ -153,6 +168,11 @@ export const RegisterForm = ({ toggleLogin }: IProps) => {
 					errorLabel={errors.password?.message}
 					control={control}
 					isPassword
+					onKeyUp={(e) => {
+						if (e.key === "Enter") {
+							handleSubmit(onSubmit)();
+						}
+					}}
 				/>
 
 				<button
