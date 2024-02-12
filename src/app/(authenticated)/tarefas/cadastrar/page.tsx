@@ -58,7 +58,7 @@ export default function Page() {
 					title="Usuarios"
 					subtitle="Cadastrar tarefa"
 					breadcrumb={[
-						{ label: "Tarefas", link: "/tarefas" },
+						{ label: "Minhas Tarefas", link: "/tarefas" },
 						{
 							label: "Cadastrar tarefa",
 							link: "#",

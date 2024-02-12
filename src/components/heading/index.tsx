@@ -20,12 +20,12 @@ export const Heading = ({
 	breadcrumb,
 }: IProps) => {
 	return (
-		<div className="bg-white rounded-md p-4 flex gap-4 justify-between items-center">
+		<div className="bg-white rounded-md p-4 flex sm:gap-4 justify-between sm:flex-row flex-col items-center gap-8 text-center sm:text-start">
 			<div className="flex justify-center items-center gap-4">
-				<div className="flex flex-col gap-4 text-sm">
+				<div className="flex flex-col sm:gap-4 gap-8 text-sm">
 					<div>
 						{breadcrumb && (
-							<div className="flex gap-2">
+							<div className="flex gap-2 justify-center sm:justify-start">
 								{breadcrumb.map((item, index) => (
 									<a
 										key={item.label}

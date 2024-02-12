@@ -131,7 +131,7 @@ export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 	return (
 		<Fragment>
 			<div className="flex flex-col gap-4 transition-all w-full">
-				<div className="w-full flex flex-row gap-2 items-end justify-end">
+				<div className="w-full flex  gap-2 sm:justify-end flex-col sm:flex-row justify-center items-center sm:items-end">
 					<Input
 						leftIcon={<HiOutlineMail size={20} />}
 						name="email"
@@ -141,12 +141,12 @@ export const ResetPasswordForm = ({ toggleLogin }: IProps) => {
 						control={control}
 					/>
 					<Button
-						className="w-full max-w-[200px] h-fit"
+						className="w-full sm:max-w-[200px] h-fit"
 						onClick={() => {
 							sendEmail(watchEmail);
 						}}
 					>
-						<div className="w-full flex-nowrap flex flex-row gap-2">
+						<div className="w-full flex-nowrap flex flex-row gap-2 justify-center items-center sm:justify-start">
 							{" "}
 							<HiOutlineMail size={20} />
 							<p>Enviar email</p>

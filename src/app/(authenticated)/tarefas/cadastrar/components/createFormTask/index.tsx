@@ -57,7 +57,7 @@ export const CreateFormTask = (props: IProps) => {
 					<Input
 						leftIcon={<HiOutlineCalendar size={20} />}
 						name="date"
-						label="Date"
+						label="Data"
 						placeholder="Data da tarefa"
 						errorLabel={errors.date?.message}
 						control={control}
@@ -68,7 +68,7 @@ export const CreateFormTask = (props: IProps) => {
 
 				<Input
 					name="description"
-					label="Titulo"
+					label="Descrição"
 					placeholder="Digite a descrição da tarefa"
 					errorLabel={errors.description?.message}
 					control={control}

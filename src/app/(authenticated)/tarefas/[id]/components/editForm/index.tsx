@@ -2,11 +2,7 @@ import { Input } from "@/components/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {
-	HiOutlineCalendar,
-	HiOutlineUser,
-	HiOutlineViewList,
-} from "react-icons/hi";
+import { HiOutlineCalendar, HiOutlineViewList } from "react-icons/hi";
 
 import * as yup from "yup";
 
@@ -73,7 +69,7 @@ export const EditFormTask = (props: IProps) => {
 					<Input
 						leftIcon={<HiOutlineCalendar size={20} />}
 						name="date"
-						label="Date"
+						label="Data"
 						placeholder="Data da tarefa"
 						errorLabel={errors.date?.message}
 						control={control}

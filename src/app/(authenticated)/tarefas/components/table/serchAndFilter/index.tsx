@@ -44,12 +44,12 @@ export const SearchAndFilter = ({
 	const watchSearch = watch("search");
 
 	return (
-		<div className="flex w-full justify-center items-end gap-4 flex-wrap md:flex-nowrap">
+		<div className="flex w-full justify-center items-end gap-4 flex-wrap md:flex-nowrap flex-col sm:flex-row ">
 			<Select
 				name="limit"
 				label="Exibir"
 				control={control}
-				classNameRoot="flex-1 md:min-w-[200px] md:max-w-[100px]"
+				classNameRoot="flex-1 w-full md:min-w-[100px] md:max-w-[100px]"
 				options={[
 					{ value: "5", label: "5" },
 					{ value: "10", label: "10" },
@@ -66,7 +66,7 @@ export const SearchAndFilter = ({
 				name="status"
 				label="Status"
 				control={control}
-				classNameRoot="flex-1 md:min-w-[200px] md:max-w-[100px]"
+				classNameRoot="flex-1 w-full md:min-w-[100px] md:max-w-[100px]"
 				options={[
 					{ value: "all", label: "Todos" },
 					{ value: "active", label: "Ativo" },
@@ -82,7 +82,7 @@ export const SearchAndFilter = ({
 				leftIcon={
 					<HiOutlineClipboardList size={20} className="text-gray-600" />
 				}
-				classNameRoot="flex-1 md:min-w-[200px]"
+				classNameRoot="flex-1 w-full md:min-w-[100px]"
 				name="search"
 				label="Pesquisar"
 				placeholder="Pesquise um usuário"
@@ -101,9 +101,9 @@ export const SearchAndFilter = ({
 					setSearch(e.target.value);
 				}}
 			/>
-			<div className="flex-1 md:min-w-[200px] md:max-w-[100px]">
+			<div className="flex-1 md:min-w-[200px] md:max-w-[100px] w-full">
 				<Button className="" onClick={refetch}>
-					<div className="flex gap-2 justify-center items-center">
+					<div className="flex gap-2 justify-center items-center w-full">
 						<HiOutlineSearch size={20} className="text-white" />
 						Pesquisar
 					</div>

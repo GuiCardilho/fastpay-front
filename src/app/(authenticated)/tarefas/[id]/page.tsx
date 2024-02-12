@@ -79,10 +79,10 @@ export default function Page({ params }: { params: { id: string } }) {
 		<div className="flex flex-col gap-4">
 			<div className="bg-white rounded-md p-4">
 				<Heading
-					title="Tarefas"
+					title="Minhas Tarefas"
 					subtitle="Edição de tarefas"
 					breadcrumb={[
-						{ label: "Tarefas", link: "/tarefas" },
+						{ label: "Minhas Tarefas", link: "/tarefas" },
 						{
 							label: data?.data.title || "Carregando...",
 							link: "#",

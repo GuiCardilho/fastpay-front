@@ -49,10 +49,10 @@ export default function Page() {
 						hidden: section !== "login",
 					})}
 				>
-					<div className="w-full md:w-1/2 flex flex-col justify-center items-start h-[100svh] transition-all lg:px-20 sm:px-10 px-6 gap-8 bg-white relative z-10">
+					<div className="w-full overflow-hidden md:w-1/2 flex flex-col justify-center sm:items-start text-center sm:text-start h-[100vh] transition-all lg:px-20 sm:px-10 px-6 gap-12 sm:gap-8 bg-white relative z-10">
 						<div className="flex flex-col gap-1">
 							<div className="text-2xl font-bold">
-								Seja bem-vindo a plataforma
+								Sejá bem-vindo a plataforma
 							</div>
 							<p className="text-gray-500 text-md font-medium">
 								Faça login para continuar
@@ -66,7 +66,7 @@ export default function Page() {
 						/>
 					</div>
 
-					<div className="w-1/2 hidden md:flex h-[100svh] justify-center items-center" />
+					<div className="w-1/2 hidden md:flex h-[100vh] justify-center items-center" />
 				</motion.main>
 
 				<motion.main
@@ -79,8 +79,8 @@ export default function Page() {
 						hidden: section !== "register",
 					})}
 				>
-					<div className="w-1/2 hidden md:flex h-[100svh] justify-center items-center" />
-					<div className="w-full md:w-1/2 flex flex-col justify-center items-start h-[100svh] transition-all lg:px-20 sm:px-10 px-6 gap-8 bg-white relative z-10">
+					<div className="w-1/2 hidden md:flex h-[100vh] justify-center items-center" />
+					<div className="w-full md:w-1/2 flex flex-col justify-center items-start h-[100vh] transition-all lg:px-20 sm:px-10 px-6 gap-8 bg-white relative z-10">
 						<div className="flex flex-col gap-1">
 							<div className="text-2xl font-bold">
 								Faça parte da nossa plataforma
@@ -108,7 +108,7 @@ export default function Page() {
 						hidden: section !== "resetPassword",
 					})}
 				>
-					<div className="w-full flex flex-col justify-center items-start h-[100svh] transition-all lg:px-20 sm:px-10 px-6 gap-8 bg-white relative z-10">
+					<div className="w-full flex flex-col justify-center items-start h-[100vh] transition-all lg:px-20 sm:px-10 px-6 gap-8 bg-white relative z-10">
 						<div className="flex flex-col gap-1">
 							<div className="text-2xl font-bold">Resete sua senha</div>
 							<p className="text-gray-500 text-md font-medium">

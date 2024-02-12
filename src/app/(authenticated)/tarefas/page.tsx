@@ -99,9 +99,9 @@ export default function Page() {
 		<div className="flex flex-col gap-4">
 			<div className="bg-white rounded-md p-4">
 				<Heading
-					title="Tarefas"
+					title="Minhas Tarefas"
 					subtitle="Listagem de Tarefas"
-					breadcrumb={[{ label: "Tarefas", link: "/tarefas" }]}
+					breadcrumb={[{ label: "Minhas Tarefas", link: "/tarefas" }]}
 					icon={<HiOutlineClipboardList size={42} className="text-gray-600" />}
 					button={{
 						children: (

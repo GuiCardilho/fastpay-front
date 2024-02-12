@@ -91,7 +91,7 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 	};
 	return (
 		<Fragment>
-			<div className="flex flex-col gap-4 transition-all w-full">
+			<div className="flex flex-col gap-4 transition-all w-full text-start">
 				<Input
 					leftIcon={<HiOutlineMail size={20} />}
 					name="emailLogin"
@@ -111,7 +111,7 @@ export const LoginForm = ({ toggleLogin }: IProps) => {
 					isPassword
 				/>
 
-				<div className="w-full flex items-center justify-between ">
+				<div className="w-full flex items-start sm:items-center justify-start sm:justify-between flex-col sm:flex-row xs:gap-2">
 					<button
 						className="text-xs text-blue-600 font-medium text-start w-fit content-start cursor-pointer transition-all hover:text-blue-700 active:text-blue-900"
 						type="button"

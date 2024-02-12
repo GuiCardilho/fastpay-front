@@ -29,7 +29,7 @@ export const Sidebar = () => {
 			href: "/usuarios",
 		},
 		{
-			name: "Tarefas",
+			name: "Minhas Tarefas",
 			icon: <HiOutlineClipboardList size={20} />,
 			href: "/tarefas",
 		},
@@ -54,7 +54,7 @@ export const Sidebar = () => {
 				variants={variants}
 				transition={{ duration: 0.5 }}
 				className={cn(
-					"h-[100svh] overflow-hidden absolute flex-col bg-white px-6 py-6 text-md text-gray-500 w-[250px] transition-all duration-300 ease-in-out border-r border-solid shadow md:flex",
+					"h-[100vh] overflow-hidden absolute flex-col bg-white px-6 py-6 text-md text-gray-500 w-[250px] transition-all duration-300 ease-in-out border-r border-solid shadow md:flex",
 					{
 						absolute: isAbsolute,
 						"absolute md:relative z-30": !isAbsolute,
@@ -80,7 +80,7 @@ export const Sidebar = () => {
 			<button
 				type="button"
 				className={cn(
-					"flex-1 absolute bg-gray-700 opacity-50 w-[100svw] h-[100svh] z-20 md:hidden",
+					"flex-1 absolute bg-gray-700 opacity-50 w-[100vw] h-[100vh] z-20 md:hidden",
 					show ? "block" : "hidden z-0",
 				)}
 				onClick={() => {
